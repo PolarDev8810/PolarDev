@@ -592,4 +592,142 @@
                 <input type="text" class="tool-input" id="ytLink" placeholder="Pega el link del video de YouTube...">
                 <button class="tool-btn" onclick="extractThumbnail()">Obtener Miniatura</button>
                 
-       
+                <div class="thumb-preview-box" id="thumbBox">
+                    <img src="" class="thumb-img" id="thumbImg" alt="Miniatura">
+                    <button class="tool-btn" style="padding: 6px 0; font-size:0.85rem;" onclick="downloadThumb()">Guardar Imagen</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- ADSTERRA CONFIGURACIÓN ---
+        const ADSTERRA_DIRECT_LINK = "https://www.effectivecpmnetwork.com/keyyndqw?key=68392251e25e85d38c413b9bed61667d";
+        const WHATSAPP_CHANNEL_URL = "https://whatsapp.com/channel/0029VbCLmjG77qVT5oUJQY3e";
+
+        // --- FONDO ANIMADO ---
+        const starsContainer = document.querySelector('.stars');
+        for (let i = 0; i < 120; i++) {
+            const star = document.createElement('span');
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDuration = (Math.random() * 10 + 5) + 's';
+            star.style.opacity = Math.random();
+            starsContainer.appendChild(star);
+        }
+
+        // --- CUENTA REGRESIVA ---
+        const FECHA_LANZAMIENTO = new Date("May 23, 2026 17:00:00").getTime(); 
+        const TOKEN_OCULTO = "cHLDs3hpbWFtZW50ZQ==";
+        let CODIGO_SECRETO = ""; 
+
+        const elementoTimer = document.getElementById('timer');
+        const elementoCodigo = document.getElementById('codeBox');
+        const elementoTitulo = document.getElementById('lootTitle');
+
+        const cuentaAtras = setInterval(() => {
+            const ahora = new Date().getTime();
+            const distanciaReal = FECHA_LANZAMIENTO - ahora;
+
+            const dias = Math.floor(distanciaReal / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((distanciaReal % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distanciaReal % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((distanciaReal % (1000 * 60)) / 1000);
+
+            const hStr = horas < 10 ? '0' + horas : horas;
+            const mStr = minutes < 10 ? '0' + minutes : minutes; 
+            const sStr = segundos < 10 ? '0' + segundos : segundos;
+
+            if (dias > 0) {
+                elementoTimer.textContent = `${dias}d ${hStr}:${mStr}:${sStr}`;
+            } else {
+                elementoTimer.textContent = `${hStr}:${mStr}:${sStr}`;
+            }
+
+            if (distanciaReal < 0) {
+                clearInterval(cuentaAtras);
+                elementoTimer.style.display = 'none';
+                elementoTitulo.innerHTML = '<i class="fa-solid fa-fire" style="color:#25D366;"></i> (Toca para copiar)';
+                CODIGO_SECRETO = decodeURIComponent(escape(atob(TOKEN_OCULTO)));
+                elementoCodigo.textContent = CODIGO_SECRETO;
+                elementoCodigo.style.display = 'block';
+            }
+        }, 1000);
+
+        function copyCode() {
+            if (!CODIGO_SECRETO) return; 
+            navigator.clipboard.writeText(CODIGO_SECRETO).then(() => {
+                window.open(ADSTERRA_DIRECT_LINK, "_blank");
+                alert('¡Código copiado! ¡Corre a Canjearlo!');
+            }).catch(err => {
+                alert('Código: ' + CODIGO_SECRETO);
+            });
+        }
+
+        function openWhatsApp() {
+            window.open(ADSTERRA_DIRECT_LINK, "_blank");
+            window.location.href = WHATSAPP_CHANNEL_URL;
+        }
+
+        // --- ACCIÓN: DESCARGAR TIKTOK ---
+        function processDownload() {
+            const urlInput = document.getElementById('videoLink').value.trim();
+            const btn = document.getElementById('downloadBtn');
+            if (urlInput === "") { alert("Pega el enlace de TikTok."); return; }
+
+            window.open(ADSTERRA_DIRECT_LINK, "_blank");
+            btn.disabled = true;
+            btn.textContent = "Procesando...";
+
+            fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(urlInput)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.data && data.data.play) {
+                        const videoUrl = data.data.play;
+                        const a = document.createElement('a');
+                        a.href = videoUrl;
+                        a.download = `video_polar_${Date.now()}.mp4`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    } else {
+                        alert("No se pudo obtener el video.");
+                    }
+                })
+                .catch(() => alert("Error en el servidor."))
+                .finally(() => { btn.disabled = false; btn.textContent = "Descargar MP4"; });
+        }
+
+        // --- ACCIÓN: MINIATURAS YT ---
+        let currentThumbUrl = "";
+        function extractThumbnail() {
+            const ytLink = document.getElementById('ytLink').value.trim();
+            if(ytLink === "") { alert("Pega un enlace de YouTube."); return; }
+
+            window.open(ADSTERRA_DIRECT_LINK, "_blank");
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = ytLink.match(regExp);
+
+            if (match && match[2].length == 11) {
+                currentThumbUrl = `https://img.youtube.com/vi/${match[2]}/maxresdefault.jpg`;
+                document.getElementById('thumbImg').src = currentThumbUrl;
+                document.getElementById('thumbBox').style.display = "block";
+            } else {
+                alert("Enlace no válido.");
+            }
+        }
+
+        function downloadThumb() {
+            if(!currentThumbUrl) return;
+            window.open(ADSTERRA_DIRECT_LINK, "_blank");
+            const a = document.createElement('a');
+            a.href = currentThumbUrl;
+            a.target = "_blank";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html>
