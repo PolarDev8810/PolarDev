@@ -9,9 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@700&family=Funnel+Display:wght@500;700&family=Nunito:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
    
- <!-- Google tag (gtag.js) -->
- 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5891TD36C"></script>
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-G5891TD36C"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -33,7 +31,7 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            background: radial-gradient(circle at center, #3a1f5f 0%, #0f0a1f 50%, #000000 100%);
+            background: #000000; /* Fondo Full Negro */
             font-family: 'Funnel Display', 'Nunito', sans-serif;
             color: white;
             position: relative;
@@ -64,7 +62,7 @@
             100% { border-image-source: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
         }
 
-        /* --- FONDO ANIMADO --- */
+        /* --- FONDO ANIMADO DE ESTRELLAS (PUNTITOS) --- */
         .stars {
             position: fixed;
             top: 0;
@@ -79,34 +77,14 @@
         .stars span {
             position: absolute;
             display: block;
-            width: 2px;
-            height: 2px;
             background: white;
             border-radius: 50%;
             animation: moveStars linear infinite;
-            opacity: 0.7;
         }
 
         @keyframes moveStars {
             from { transform: translateY(0px); }
             to { transform: translateY(-1000px); }
-        }
-
-        .blackhole {
-            position: fixed;
-            width: 350px;
-            height: 350px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0,0,0,1) 30%, rgba(160,80,255,0.4) 60%, rgba(220,180,255,0.1) 100%);
-            filter: blur(10px);
-            animation: pulse 6s infinite ease-in-out;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
         }
 
         /* Contenedor móvil */
@@ -501,7 +479,6 @@
 <body>
 
     <div class="stars"></div>
-    <div class="blackhole"></div>
 
     <script src="https://pl29488991.effectivecpmnetwork.com/5c/6a/ac/5c6aacf0810d09606b00e7cca8678a05.js"></script>
 
@@ -617,14 +594,20 @@
         const ADSTERRA_DIRECT_LINK = "https://www.effectivecpmnetwork.com/keyyndqw?key=68392251e25e85d38c413b9bed61667d";
         const WHATSAPP_CHANNEL_URL = "https://whatsapp.com/channel/0029VbCLmjG77qVT5oUJQY3e";
 
-        // --- FONDO ANIMADO ---
+        // --- FONDO ANIMADO DE ESTRELLAS ---
         const starsContainer = document.querySelector('.stars');
-        for (let i = 0; i < 120; i++) {
+        for (let i = 0; i < 150; i++) { // Subí un poco la cantidad porque ahora son más chiquitas
             const star = document.createElement('span');
+            
+            // Alterna de forma aleatoria entre puntitos de 1px y 2px
+            const size = Math.random() > 0.5 ? '1px' : '2px';
+            star.style.width = size;
+            star.style.height = size;
+            
             star.style.left = Math.random() * 100 + '%';
             star.style.top = Math.random() * 100 + '%';
-            star.style.animationDuration = (Math.random() * 10 + 5) + 's';
-            star.style.opacity = Math.random();
+            star.style.animationDuration = (Math.random() * 12 + 6) + 's';
+            star.style.opacity = Math.random() * 0.6 + 0.3; // Opacidad más orgánica
             starsContainer.appendChild(star);
         }
 
