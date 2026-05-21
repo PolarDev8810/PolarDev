@@ -9,14 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@700&family=Funnel+Display:wght@500;700&family=Nunito:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
    
- <script async src="https://www.googletagmanager.com/gtag/js?id=G-G5891TD36C"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-G5891TD36C');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G5891TD36C"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-G5891TD36C');
+    </script>
 
     <style>
         * {
@@ -62,29 +61,48 @@
             100% { border-image-source: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
         }
 
-        /* --- FONDO ANIMADO DE ESTRELLAS (PUNTITOS) --- */
+        /* --- FONDO OPTIMIZADO: ESTRELLAS CSS SIN JAVASCRIPT --- */
         .stars {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
             z-index: 0;
             pointer-events: none;
+            background: transparent;
         }
-
-        .stars span {
+        
+        /* Capa de estrellas de 1px */
+        .stars::after {
+            content: " ";
             position: absolute;
-            display: block;
-            background: white;
-            border-radius: 50%;
-            animation: moveStars linear infinite;
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 1px;
+            background: transparent;
+            box-shadow: 10vw 20vh #fff, 35vw 45vh #fff, 70vw 15vh rgba(255,255,255,0.7), 85vw 80vh #fff, 20vw 90vh rgba(255,255,255,0.5), 55vw 60vh #fff, 90vw 30vh #fff, 40vw 10vh rgba(255,255,255,0.8), 15vw 50vh #fff, 65vw 75vh #fff;
+            animation: moveStarsOptimized 12s linear infinite;
         }
 
-        @keyframes moveStars {
-            from { transform: translateY(0px); }
-            to { transform: translateY(-1000px); }
+        /* Capa de estrellas de 2px */
+        .stars::before {
+            content: " ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            background: transparent;
+            box-shadow: 25vw 30vh #fff, 60vw 55vh #fff, 80vw 20vh #fff, 45vw 85vh rgba(255,255,255,0.9), 10vw 70vh #fff, 95vw 65vh #fff, 50vw 25vh #fff, 75vw 90vh #fff;
+            animation: moveStarsOptimized 18s linear infinite;
+        }
+
+        @keyframes moveStarsOptimized {
+            from { transform: translate3d(0, 0, 0); }
+            to { transform: translate3d(0, -100vh, 0); }
         }
 
         /* Contenedor móvil */
@@ -348,7 +366,7 @@
             border-radius: 14px;
             padding: 20px;
             text-align: center;
-            box-shadow: 0 0 25px rgba(192, 132, 252, 0.15);
+            box-shadow: 0 0 25px rgba(250, 204, 21, 0.15); /* Sombra amarilla */
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -359,14 +377,14 @@
             font-family: 'Courier Prime', monospace;
             font-size: 1.3rem;
             font-weight: 700;
-            color: #c084fc;
+            color: #facc15; /* Título Herramientas en Amarillo */
             letter-spacing: 1.5px;
             text-transform: uppercase;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            text-shadow: 0 0 10px rgba(192, 132, 252, 0.4);
+            text-shadow: 0 0 10px rgba(250, 204, 21, 0.4);
         }
 
         .tool-card {
@@ -383,7 +401,7 @@
         .tool-title {
             font-size: 1rem;
             font-weight: 700;
-            color: #f3e8ff;
+            color: #facc15; /* Nombres de herramientas en Amarillo */
             display: flex;
             align-items: center;
             gap: 6px;
@@ -392,7 +410,7 @@
         .tool-input {
             width: 100%;
             background: #050814;
-            border: 1px solid rgba(192, 132, 252, 0.4);
+            border: 1px solid rgba(250, 204, 21, 0.4); /* Borde de input sutilmente amarillo */
             border-radius: 8px;
             padding: 12px;
             color: #25D366;
@@ -403,8 +421,8 @@
         }
 
         .tool-input:focus {
-            border-color: #c084fc;
-            box-shadow: 0 0 10px rgba(192, 132, 252, 0.5);
+            border-color: #facc15;
+            box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
         }
 
         .tool-btn {
@@ -446,7 +464,7 @@
             width: 100%;
             max-width: 280px;
             border-radius: 8px;
-            border: 2px solid #c084fc;
+            border: 2px solid #facc15;
             margin-bottom: 8px;
         }
 
@@ -594,24 +612,7 @@
         const ADSTERRA_DIRECT_LINK = "https://www.effectivecpmnetwork.com/keyyndqw?key=68392251e25e85d38c413b9bed61667d";
         const WHATSAPP_CHANNEL_URL = "https://whatsapp.com/channel/0029VbCLmjG77qVT5oUJQY3e";
 
-        // --- FONDO ANIMADO DE ESTRELLAS ---
-        const starsContainer = document.querySelector('.stars');
-        for (let i = 0; i < 150; i++) { // Subí un poco la cantidad porque ahora son más chiquitas
-            const star = document.createElement('span');
-            
-            // Alterna de forma aleatoria entre puntitos de 1px y 2px
-            const size = Math.random() > 0.5 ? '1px' : '2px';
-            star.style.width = size;
-            star.style.height = size;
-            
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDuration = (Math.random() * 12 + 6) + 's';
-            star.style.opacity = Math.random() * 0.6 + 0.3; // Opacidad más orgánica
-            starsContainer.appendChild(star);
-        }
-
-        // --- CUENTA REGRESIVA ---
+        // --- CUENTA REGRESIVA OPTIMIZADA ---
         const FECHA_LANZAMIENTO = new Date("May 23, 2026 17:00:00").getTime(); 
         const TOKEN_OCULTO = "cHLDs3hpbWFtZW50ZQ==";
         let CODIGO_SECRETO = ""; 
@@ -621,32 +622,33 @@
         const elementoTitulo = document.getElementById('lootTitle');
 
         const cuentaAtras = setInterval(() => {
-            const ahora = new Date().getTime();
+            const ahora = Date.now();
             const distanciaReal = FECHA_LANZAMIENTO - ahora;
-
-            const dias = Math.floor(distanciaReal / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((distanciaReal % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distanciaReal % (1000 * 60 * 60)) / (1000 * 60));
-            const segundos = Math.floor((distanciaReal % (1000 * 60)) / 1000);
-
-            const hStr = horas < 10 ? '0' + horas : horas;
-            const mStr = minutes < 10 ? '0' + minutes : minutes; 
-            const sStr = segundos < 10 ? '0' + segundos : segundos;
-
-            if (dias > 0) {
-                elementoTimer.textContent = `${dias}d ${hStr}:${mStr}:${sStr}`;
-            } else {
-                elementoTimer.textContent = `${hStr}:${mStr}:${sStr}`;
-            }
 
             if (distanciaReal < 0) {
                 clearInterval(cuentaAtras);
                 elementoTimer.style.display = 'none';
                 elementoTitulo.innerHTML = '<i class="fa-solid fa-fire" style="color:#25D366;"></i> (Toca para copiar)';
-                CODIGO_SECRETO = decodeURIComponent(escape(atob(TOKEN_OCULTO)));
+                try {
+                    CODIGO_SECRETO = decodeURIComponent(escape(atob(TOKEN_OCULTO)));
+                } catch(e) {
+                    CODIGO_SECRETO = "ERROR_TOKEN";
+                }
                 elementoCodigo.textContent = CODIGO_SECRETO;
                 elementoCodigo.style.display = 'block';
+                return;
             }
+
+            const dias = Math.floor(distanciaReal / 86400000);
+            const horas = Math.floor((distanciaReal % 86400000) / 3600000);
+            const minutes = Math.floor((distanciaReal % 3600000) / 60000);
+            const segundos = Math.floor((distanciaReal % 60000) / 1000);
+
+            const hStr = horas.toString().padStart(2, '0');
+            const mStr = minutes.toString().padStart(2, '0'); 
+            const sStr = segundos.toString().padStart(2, '0');
+
+            elementoTimer.textContent = dias > 0 ? `${dias}d ${hStr}:${mStr}:${sStr}` : `${hStr}:${mStr}:${sStr}`;
         }, 1000);
 
         function copyCode() {
@@ -654,7 +656,7 @@
             navigator.clipboard.writeText(CODIGO_SECRETO).then(() => {
                 window.open(ADSTERRA_DIRECT_LINK, "_blank");
                 alert('¡Código copiado! ¡Corre a Canjearlo!');
-            }).catch(err => {
+            }).catch(() => {
                 alert('Código: ' + CODIGO_SECRETO);
             });
         }
@@ -675,7 +677,10 @@
             btn.textContent = "Procesando...";
 
             fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(urlInput)}`)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) throw new Error("Error en red");
+                    return response.json();
+                })
                 .then(data => {
                     if (data && data.data && data.data.play) {
                         const videoUrl = data.data.play;
@@ -686,10 +691,10 @@
                         a.click();
                         document.body.removeChild(a);
                     } else {
-                        alert("No se pudo obtener el video.");
+                        alert("No se pudo extraer el video. Verifica el link o intenta más tarde.");
                     }
                 })
-                .catch(() => alert("Error en el servidor."))
+                .catch(() => alert("El servidor de descargas no responde o el enlace es inválido."))
                 .finally(() => { btn.disabled = false; btn.textContent = "Descargar MP4"; });
         }
 
@@ -705,7 +710,8 @@
 
             if (match && match[2].length == 11) {
                 currentThumbUrl = `https://img.youtube.com/vi/${match[2]}/maxresdefault.jpg`;
-                document.getElementById('thumbImg').src = currentThumbUrl;
+                const img = document.getElementById('thumbImg');
+                img.src = currentThumbUrl;
                 document.getElementById('thumbBox').style.display = "block";
             } else {
                 alert("Enlace no válido.");
