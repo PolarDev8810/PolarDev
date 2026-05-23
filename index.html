@@ -366,7 +366,7 @@
             border-radius: 14px;
             padding: 20px;
             text-align: center;
-            box-shadow: 0 0 25px rgba(250, 204, 21, 0.15); /* Sombra amarilla */
+            box-shadow: 0 0 25px rgba(250, 204, 21, 0.15); 
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -377,7 +377,7 @@
             font-family: 'Courier Prime', monospace;
             font-size: 1.3rem;
             font-weight: 700;
-            color: #facc15; /* Título Herramientas en Amarillo */
+            color: #facc15; 
             letter-spacing: 1.5px;
             text-transform: uppercase;
             display: flex;
@@ -401,7 +401,7 @@
         .tool-title {
             font-size: 1rem;
             font-weight: 700;
-            color: #facc15; /* Nombres de herramientas en Amarillo */
+            color: #facc15; 
             display: flex;
             align-items: center;
             gap: 6px;
@@ -410,7 +410,7 @@
         .tool-input {
             width: 100%;
             background: #050814;
-            border: 1px solid rgba(250, 204, 21, 0.4); /* Borde de input sutilmente amarillo */
+            border: 1px solid rgba(250, 204, 21, 0.4); 
             border-radius: 8px;
             padding: 12px;
             color: #25D366;
@@ -612,44 +612,50 @@
         const ADSTERRA_DIRECT_LINK = "https://www.effectivecpmnetwork.com/keyyndqw?key=68392251e25e85d38c413b9bed61667d";
         const WHATSAPP_CHANNEL_URL = "https://whatsapp.com/channel/0029VbCLmjG77qVT5oUJQY3e";
 
-        // --- CUENTA REGRESIVA OPTIMIZADA ---
-        const FECHA_LANZAMIENTO = new Date("May 23, 2026 17:00:00").getTime(); 
-        const TOKEN_OCULTO = "cHLDs3hpbWFtZW50ZQ==";
         let CODIGO_SECRETO = ""; 
 
-        const elementoTimer = document.getElementById('timer');
-        const elementoCodigo = document.getElementById('codeBox');
-        const elementoTitulo = document.getElementById('lootTitle');
+        // --- CARGAR CONFIGURACIÓN REMOTA DESDE JSON ---
+        fetch('config.json?v=' + Date.now())
+            .then(response => response.json())
+            .then(config => {
+                
+                CODIGO_SECRETO = config.codigo_secreto;
+                const FECHA_LANZAMIENTO = new Date(config.fecha_lanzamiento).getTime(); 
 
-        const cuentaAtras = setInterval(() => {
-            const ahora = Date.now();
-            const distanciaReal = FECHA_LANZAMIENTO - ahora;
+                const elementoTimer = document.getElementById('timer');
+                const elementoCodigo = document.getElementById('codeBox');
+                const elementoTitulo = document.getElementById('lootTitle');
 
-            if (distanciaReal < 0) {
-                clearInterval(cuentaAtras);
-                elementoTimer.style.display = 'none';
-                elementoTitulo.innerHTML = '<i class="fa-solid fa-fire" style="color:#25D366;"></i> (Toca para copiar)';
-                try {
-                    CODIGO_SECRETO = decodeURIComponent(escape(atob(TOKEN_OCULTO)));
-                } catch(e) {
-                    CODIGO_SECRETO = "ERROR_TOKEN";
-                }
-                elementoCodigo.textContent = CODIGO_SECRETO;
-                elementoCodigo.style.display = 'block';
-                return;
-            }
+                const cuentaAtras = setInterval(() => {
+                    const ahora = Date.now();
+                    const distanciaReal = FECHA_LANZAMIENTO - ahora;
 
-            const dias = Math.floor(distanciaReal / 86400000);
-            const horas = Math.floor((distanciaReal % 86400000) / 3600000);
-            const minutes = Math.floor((distanciaReal % 3600000) / 60000);
-            const segundos = Math.floor((distanciaReal % 60000) / 1000);
+                    if (distanciaReal < 0) {
+                        clearInterval(cuentaAtras);
+                        elementoTimer.style.display = 'none';
+                        elementoTitulo.innerHTML = '<i class="fa-solid fa-fire" style="color:#25D366;"></i> (Toca para copiar)';
+                        
+                        elementoCodigo.textContent = CODIGO_SECRETO;
+                        elementoCodigo.style.display = 'block';
+                        return;
+                    }
 
-            const hStr = horas.toString().padStart(2, '0');
-            const mStr = minutes.toString().padStart(2, '0'); 
-            const sStr = segundos.toString().padStart(2, '0');
+                    const dias = Math.floor(distanciaReal / 86400000);
+                    const horas = Math.floor((distanciaReal % 86400000) / 3600000);
+                    const minutes = Math.floor((distanciaReal % 3600000) / 60000);
+                    const segundos = Math.floor((distanciaReal % 60000) / 1000);
 
-            elementoTimer.textContent = dias > 0 ? `${dias}d ${hStr}:${mStr}:${sStr}` : `${hStr}:${mStr}:${sStr}`;
-        }, 1000);
+                    const hStr = horas.toString().padStart(2, '0');
+                    const mStr = minutes.toString().padStart(2, '0'); 
+                    const sStr = segundos.toString().padStart(2, '0');
+
+                    elementoTimer.textContent = dias > 0 ? `${dias}d ${hStr}:${mStr}:${sStr}` : `${hStr}:${mStr}:${sStr}`;
+                }, 1000);
+            })
+            .catch(err => {
+                console.error("Error leyendo config.json remota:", err);
+                document.getElementById('timer').textContent = "ERROR_LOAD";
+            });
 
         function copyCode() {
             if (!CODIGO_SECRETO) return; 
