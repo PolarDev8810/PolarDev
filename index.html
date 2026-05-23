@@ -24,20 +24,75 @@
             padding: 0;
         }
 
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #020205;
+            z-index: 999999; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader-content {
+            text-align: center;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        .loader-title {
+            font-family: 'Courier Prime', monospace;
+            font-size: 1.1rem;
+            color: #c084fc;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(192, 132, 252, 0.5);
+        }
+
+        .loader-percentage {
+            font-family: 'Courier Prime', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .loader-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loader-bar-fill {
+            width: 0%; 
+            height: 100%;
+            background: linear-gradient(90deg, #ff0055, #00ff66, #00ffff);
+            background-size: 200% 100%;
+            border-radius: 10px;
+            transition: width 0.1s linear;
+        }
+
         body {
             min-height: 100vh;
             overflow-x: hidden;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            background: #000000; /* Fondo Full Negro */
+            background: #000000; 
             font-family: 'Funnel Display', 'Nunito', sans-serif;
             color: white;
             position: relative;
             padding: 20px;
         }
 
-        /* --- CONTORNO RGB EN EL BORDE DE LA PANTALLA --- */
         body::before {
             content: "";
             position: fixed;
@@ -61,7 +116,6 @@
             100% { border-image-source: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
         }
 
-        /* --- FONDO OPTIMIZADO: ESTRELLAS CSS SIN JAVASCRIPT --- */
         .stars {
             position: fixed;
             top: 0;
@@ -73,7 +127,6 @@
             background: transparent;
         }
         
-        /* Capa de estrellas de 1px */
         .stars::after {
             content: " ";
             position: absolute;
@@ -86,7 +139,6 @@
             animation: moveStarsOptimized 12s linear infinite;
         }
 
-        /* Capa de estrellas de 2px */
         .stars::before {
             content: " ";
             position: absolute;
@@ -105,7 +157,6 @@
             to { transform: translate3d(0, -100vh, 0); }
         }
 
-        /* Contenedor móvil */
         .wrapper {
             width: 100%;
             max-width: 420px;
@@ -117,7 +168,6 @@
             padding-top: 90px;
         }
 
-        /* Perfil */
         .profile-container {
             text-align: center;
             width: 100%;
@@ -165,7 +215,6 @@
             color: #e9d5ff; 
         }
 
-        /* --- TARJETA DE RECOMPENSA GLASSMORPHISM --- */
         .loot-box {
             width: 100%;
             backdrop-filter: blur(15px);
@@ -201,6 +250,35 @@
             text-shadow: 0 0 10px rgba(255,82,82,0.4);
         }
 
+        .tabs-container {
+            display: none; 
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #e9d5ff;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.8rem;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            flex: 1; 
+            text-align: center;
+        }
+
+        .tab-btn.active {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+        }
+
         .code-display {
             display: none; 
             font-family: 'Courier Prime', monospace;
@@ -219,19 +297,18 @@
             border: 3px solid transparent;
             border-image: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055) 1;
             background-size: 400% 400%;
-            animation: rgb-border 6s linear infinite;
+            animation: rgb-border-exclusivo 6s linear infinite;
             box-shadow: 0 0 20px rgba(37, 211, 102, 0.2), inset 0 0 10px rgba(255, 255, 255, 0.05);
         }
 
-        @keyframes rgb-border {
+        @keyframes rgb-border-exclusivo {
             0% { border-image-source: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
             25% { border-image-source: linear-gradient(135deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
             50% { border-image-source: linear-gradient(225deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
-            75% { border-image-source: linear-gradient(315deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
+            75% { border-image-source: linear-gradient(315deg, #ff0055, #00ffff, #ff00ff, #ff0055); }
             100% { border-image-source: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
         }
 
-        /* Contenedor de los enlaces principales */
         .links-container {
             width: 100%;
             display: flex;
@@ -259,10 +336,6 @@
             transform: scale(1.03);
             background: rgba(255, 255, 255, 0.15);
             box-shadow: 0 0 25px rgba(180,120,255,0.4); 
-        }
-
-        .link-card:active {
-            transform: scale(0.98);
         }
 
         .link-card i {
@@ -311,7 +384,6 @@
             opacity: 0.8;
         }
 
-        /* --- CUADRO RECOMENDADO / VIDEO DESTACADO --- */
         .video-promo-box {
             width: 100%;
             backdrop-filter: blur(15px);
@@ -357,34 +429,66 @@
             position: absolute;
         }
 
-        /* --- SECCIÓN DE HERRAMIENTAS / TOOLBOX --- */
         .toolbox-container {
             width: 100%;
             backdrop-filter: blur(15px);
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 14px;
-            padding: 20px;
+            padding: 0; 
             text-align: center;
-            box-shadow: 0 0 25px rgba(250, 204, 21, 0.15); /* Sombra amarilla */
+            box-shadow: 0 0 25px rgba(250, 204, 21, 0.15); 
             display: flex;
             flex-direction: column;
-            gap: 20px;
             margin-bottom: 25px;
+            overflow: hidden;
         }
 
         .toolbox-heading {
+            width: 100%;
+            padding: 20px;
             font-family: 'Courier Prime', monospace;
             font-size: 1.3rem;
             font-weight: 700;
-            color: #facc15; /* Título Herramientas en Amarillo */
+            color: #facc15; 
             letter-spacing: 1.5px;
             text-transform: uppercase;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 12px;
             text-shadow: 0 0 10px rgba(250, 204, 21, 0.4);
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.3s ease;
+        }
+
+        .toolbox-heading:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .toolbox-heading i.fa-chevron-down {
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .toolbox-heading.activo i.fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .toolbox-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 0 20px; 
+        }
+
+        .toolbox-content.abierto {
+            max-height: 750px; 
+            padding: 0 20px 20px 20px; 
         }
 
         .tool-card {
@@ -401,7 +505,7 @@
         .tool-title {
             font-size: 1rem;
             font-weight: 700;
-            color: #facc15; /* Nombres de herramientas en Amarillo */
+            color: #ffffff; 
             display: flex;
             align-items: center;
             gap: 6px;
@@ -410,19 +514,18 @@
         .tool-input {
             width: 100%;
             background: #050814;
-            border: 1px solid rgba(250, 204, 21, 0.4); /* Borde de input sutilmente amarillo */
+            border: 1px solid rgba(255, 255, 255, 0.2); 
             border-radius: 8px;
             padding: 12px;
-            color: #25D366;
+            color: #ffffff;
             font-family: 'Courier Prime', monospace;
             font-size: 0.9rem;
             outline: none;
-            transition: border 0.3s ease, box-shadow 0.3s ease;
+            transition: border 0.3s ease;
         }
 
         .tool-input:focus {
-            border-color: #facc15;
-            box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+            border-color: #ffffff;
         }
 
         .tool-btn {
@@ -430,45 +533,43 @@
             font-family: 'Courier Prime', monospace;
             font-size: 1rem;
             font-weight: 700;
-            color: white;
-            background: #050814;
+            color: #ffffff !important; 
+            background: #16161a; 
             padding: 12px 0;
-            border: 2px solid transparent;
-            border-image: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055) 1;
-            background-size: 400% 400%;
-            animation: rgb-border 6s linear infinite;
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border-radius: 6px;
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: transform 0.1s ease;
+            transition: transform 0.1s ease, background 0.2s ease;
+        }
+
+        .tool-btn:hover:not(:disabled) {
+            background: #222227; 
         }
 
         .tool-btn:disabled {
-            opacity: 0.6;
+            opacity: 0.3;
             cursor: not-allowed;
-            animation: none;
-            border-color: #555;
-        }
-
-        .tool-btn:active:not(:disabled) {
-            transform: scale(0.97);
+            border-color: #444;
+            color: #777 !important;
         }
 
         .thumb-preview-box {
-            display: none;
+            display: none; 
+            width: 100%;
             margin-top: 10px;
-            text-align: center;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .thumb-img {
             width: 100%;
-            max-width: 280px;
-            border-radius: 8px;
-            border: 2px solid #facc15;
-            margin-bottom: 8px;
+            height: auto;
+            display: block;
         }
 
-        /* --- CONTENEDOR ESTILIZADO DE ADSTERRA BANNER --- */
         .adsterra-box {
             width: 100%;
             backdrop-filter: blur(15px);
@@ -492,11 +593,56 @@
             color: rgba(255, 255, 255, 0.5);
             letter-spacing: 1px;
         }
+
+        .custom-toast {
+            position: fixed;
+            bottom: -100px; 
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(5, 8, 20, 0.95);
+            border: 2px solid #25D366; 
+            color: #ffffff;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-align: center;
+            z-index: 200000;
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+            backdrop-filter: blur(10px);
+            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 85%;
+            max-width: 340px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .custom-toast.show {
+            bottom: 40px; 
+        }
     </style>
 </head>
 <body>
 
+    <div id="preloader">
+        <div class="loader-content">
+            <div class="loader-title">PROCESANDO SISTEMA...</div>
+            <div class="loader-percentage" id="loadPercent">0%</div>
+            <div class="loader-bar-bg">
+                <div class="loader-bar-fill" id="loadBar"></div>
+            </div>
+        </div>
+    </div>
+
     <div class="stars"></div>
+
+    <div class="custom-toast" id="toastAlert">
+        <i class="fa-solid fa-circle-check" style="color: #25D366; font-size: 1.2rem;"></i>
+        <span>¡Copiado! Corre a Canjearlo</span>
+    </div>
 
     <script src="https://pl29488991.effectivecpmnetwork.com/5c/6a/ac/5c6aacf0810d09606b00e7cca8678a05.js"></script>
 
@@ -543,9 +689,16 @@
 
         <div class="loot-box">
             <div class="loot-title" id="lootTitle">
-                <i class="fa-solid fa-gift"></i> CÓDIGO SE LIBERA EN:
+                <i class="fa-solid fa-gift"></i> CÓDIGOS SE LIBERAN EN:
             </div>
             <div class="countdown" id="timer">00:00:00</div>
+            
+            <div class="tabs-container" id="tabsBox">
+                <button class="tab-btn active" onclick="switchCode(1)">Código #1</button>
+                <button class="tab-btn" onclick="switchCode(2)">Código #2</button>
+                <button class="tab-btn" onclick="switchCode(3)">Código #3</button>
+            </div>
+
             <div class="code-display" id="codeBox" onclick="copyCode()">CÓDIGO</div>
         </div>
 
@@ -579,28 +732,29 @@
         </div>
 
         <div class="toolbox-container">
-            <div class="toolbox-heading">
-                <i class="fa-solid fa-screwdriver-wrench"></i> Herramientas
+            <div class="toolbox-heading" id="toolboxHeader" onclick="toggleHerramientas()">
+                <i class="fa-solid fa-screwdriver-wrench"></i> Herramientas <i class="fa-solid fa-chevron-down"></i>
             </div>
             
-            <div class="tool-card">
-                <div class="tool-title">
-                    <i class="fa-brands fa-tiktok" style="color: #00f2fe;"></i> TikTok Video Downloader
+            <div class="toolbox-content" id="toolboxContent">
+                <div class="tool-card">
+                    <div class="tool-title">
+                        Descargar TikTok sin marca de agua
+                    </div>
+                    <input type="text" class="tool-input" id="videoLink" placeholder="Pega el link de TikTok aquí...">
+                    <button class="tool-btn" id="downloadBtn" onclick="processDownload()">Descargar MP4</button>
                 </div>
-                <input type="text" class="tool-input" id="videoLink" placeholder="Pega el link de TikTok aquí...">
-                <button class="tool-btn" id="downloadBtn" onclick="processDownload()">Descargar MP4</button>
-            </div>
 
-            <div class="tool-card">
-                <div class="tool-title">
-                    <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> Extraer Miniatura YouTube (HD)
-                </div>
-                <input type="text" class="tool-input" id="ytLink" placeholder="Pega el link del video de YouTube...">
-                <button class="tool-btn" onclick="extractThumbnail()">Obtener Miniatura</button>
-                
-                <div class="thumb-preview-box" id="thumbBox">
-                    <img src="" class="thumb-img" id="thumbImg" alt="Miniatura">
-                    <button class="tool-btn" style="padding: 6px 0; font-size:0.85rem;" onclick="downloadThumb()">Guardar Imagen</button>
+                <div class="tool-card">
+                    <div class="tool-title">
+                        Extraer Miniatura YouTube (HD)
+                    </div>
+                    <input type="text" class="tool-input" id="ytLink" placeholder="Pega el link del video de YouTube...">
+                    <button class="tool-btn" onclick="extractThumbnail()">Obtener Miniatura</button>
+                    
+                    <div class="thumb-preview-box" id="thumbBox">
+                        <img src="" class="thumb-img" id="thumbImg" alt="Miniatura">
+                    </div>
                 </div>
             </div>
         </div>
@@ -608,18 +762,70 @@
     </div>
 
     <script>
-        // --- ADSTERRA CONFIGURACIÓN ---
         const ADSTERRA_DIRECT_LINK = "https://www.effectivecpmnetwork.com/keyyndqw?key=68392251e25e85d38c413b9bed61667d";
         const WHATSAPP_CHANNEL_URL = "https://whatsapp.com/channel/0029VbCLmjG77qVT5oUJQY3e";
 
-        // --- CUENTA REGRESIVA OPTIMIZADA ---
-        const FECHA_LANZAMIENTO = new Date("May 23, 2026 17:00:00").getTime(); 
-        const TOKEN_OCULTO = "cHLDs3hpbWFtZW50ZQ==";
-        let CODIGO_SECRETO = ""; 
+        let progresoActual = 0;
+        let paginaTotalmenteCargada = false;
+        const txtPorcentaje = document.getElementById('loadPercent');
+        const barraRelleno = document.getElementById('loadBar');
+        const contenedorLoader = document.getElementById('preloader');
+
+        const intervaloCarga = setInterval(() => {
+            if (!paginaTotalmenteCargada) {
+                if (progresoActual < 85) {
+                    progresoActual += Math.floor(Math.random() * 5) + 2;
+                    if (progresoActual > 85) progresoActual = 85;
+                    actualizarInterfazLoader(progresoActual);
+                }
+            } else {
+                progresoActual += Math.floor(Math.random() * 12) + 5;
+                if (progresoActual >= 100) {
+                    progresoActual = 100;
+                    actualizarInterfazLoader(progresoActual);
+                    clearInterval(intervaloCarga);
+                    
+                    setTimeout(() => {
+                        contenedorLoader.style.opacity = '0';
+                        contenedorLoader.style.visibility = 'hidden';
+                    }, 400);
+                } else {
+                    actualizarInterfazLoader(progresoActual);
+                }
+            }
+        }, 40);
+
+        function actualizarInterfazLoader(valor) {
+            txtPorcentaje.textContent = `${valor}%`;
+            barraRelleno.style.width = `${valor}%`;
+        }
+
+        window.addEventListener('load', () => {
+            paginaTotalmenteCargada = true;
+        });
+
+        function toggleHerramientas() {
+            const header = document.getElementById("toolboxHeader");
+            const content = document.getElementById("toolboxContent");
+            header.classList.toggle("activo");
+            content.classList.toggle("abierto");
+        }
+
+        const TOKENS_OCULTOS = [
+            "REpIM2tQM00wV1ZKSzFXQ1Q0", 
+            "REpIM2tQM00wQlAwMUpNMjFL", 
+            "REpIM2tQM00wUldHUlZCWDBW"
+        ];
+        let codigosDecodificados = [];
+        let codigoActivoActual = "";
+
+        const FECHA_LANZAMIENTO = new Date("May 23, 2026 09:30:00").getTime(); 
 
         const elementoTimer = document.getElementById('timer');
         const elementoCodigo = document.getElementById('codeBox');
         const elementoTitulo = document.getElementById('lootTitle');
+        const elementoTabs = document.getElementById('tabsBox');
+        const elementoToast = document.getElementById('toastAlert');
 
         const cuentaAtras = setInterval(() => {
             const ahora = Date.now();
@@ -629,12 +835,19 @@
                 clearInterval(cuentaAtras);
                 elementoTimer.style.display = 'none';
                 elementoTitulo.innerHTML = '<i class="fa-solid fa-fire" style="color:#25D366;"></i> (Toca para copiar)';
-                try {
-                    CODIGO_SECRETO = decodeURIComponent(escape(atob(TOKEN_OCULTO)));
-                } catch(e) {
-                    CODIGO_SECRETO = "ERROR_TOKEN";
-                }
-                elementoCodigo.textContent = CODIGO_SECRETO;
+                
+                TOKENS_OCULTOS.forEach(token => {
+                    try {
+                        codigosDecodificados.push(decodeURIComponent(escape(atob(token))));
+                    } catch(e) {
+                        codigosDecodificados.push("ERR_CODE");
+                    }
+                });
+
+                codigoActivoActual = codigosDecodificados[0];
+                elementoCodigo.textContent = codigoActivoActual;
+                
+                elementoTabs.style.display = 'flex'; 
                 elementoCodigo.style.display = 'block';
                 return;
             }
@@ -651,13 +864,29 @@
             elementoTimer.textContent = dias > 0 ? `${dias}d ${hStr}:${mStr}:${sStr}` : `${hStr}:${mStr}:${sStr}`;
         }, 1000);
 
+        function switchCode(numeroCodigo) {
+            if (codigosDecodificados.length === 0) return;
+            
+            const btns = document.querySelectorAll('.tab-btn');
+            btns.forEach((btn, index) => {
+                if (index === (numeroCodigo - 1)) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+
+            codigoActivoActual = codigosDecodificados[numeroCodigo - 1];
+            elementoCodigo.textContent = codigoActivoActual;
+        }
+
         function copyCode() {
-            if (!CODIGO_SECRETO) return; 
-            navigator.clipboard.writeText(CODIGO_SECRETO).then(() => {
+            if (!codigoActivoActual) return; 
+            navigator.clipboard.writeText(codigoActivoActual).then(() => {
                 window.open(ADSTERRA_DIRECT_LINK, "_blank");
-                alert('¡Código copiado! ¡Corre a Canjearlo!');
+                elementoToast.classList.add('show');
+                setTimeout(() => {
+                    elementoToast.classList.remove('show');
+                }, 3500);
             }).catch(() => {
-                alert('Código: ' + CODIGO_SECRETO);
+                alert('Código: ' + codigoActivoActual);
             });
         }
 
@@ -666,67 +895,38 @@
             window.location.href = WHATSAPP_CHANNEL_URL;
         }
 
-        // --- ACCIÓN: DESCARGAR TIKTOK ---
         function processDownload() {
             const urlInput = document.getElementById('videoLink').value.trim();
             const btn = document.getElementById('downloadBtn');
             if (urlInput === "") { alert("Pega el enlace de TikTok."); return; }
-
             window.open(ADSTERRA_DIRECT_LINK, "_blank");
-            btn.disabled = true;
-            btn.textContent = "Procesando...";
-
+            btn.disabled = true; btn.textContent = "Procesando...";
             fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(urlInput)}`)
-                .then(response => {
-                    if (!response.ok) throw new Error("Error en red");
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
                     if (data && data.data && data.data.play) {
-                        const videoUrl = data.data.play;
                         const a = document.createElement('a');
-                        a.href = videoUrl;
+                        a.href = data.data.play;
                         a.download = `video_polar_${Date.now()}.mp4`;
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                    } else {
-                        alert("No se pudo extraer el video. Verifica el link o intenta más tarde.");
-                    }
+                        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                    } else { alert("No se pudo extraer el video."); }
                 })
-                .catch(() => alert("El servidor de descargas no responde o el enlace es inválido."))
+                .catch(() => alert("Error en el servidor de descargas."))
                 .finally(() => { btn.disabled = false; btn.textContent = "Descargar MP4"; });
         }
 
-        // --- ACCIÓN: MINIATURAS YT ---
         let currentThumbUrl = "";
         function extractThumbnail() {
             const ytLink = document.getElementById('ytLink').value.trim();
             if(ytLink === "") { alert("Pega un enlace de YouTube."); return; }
-
             window.open(ADSTERRA_DIRECT_LINK, "_blank");
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
             const match = ytLink.match(regExp);
-
             if (match && match[2].length == 11) {
                 currentThumbUrl = `https://img.youtube.com/vi/${match[2]}/maxresdefault.jpg`;
-                const img = document.getElementById('thumbImg');
-                img.src = currentThumbUrl;
+                document.getElementById('thumbImg').src = currentThumbUrl;
                 document.getElementById('thumbBox').style.display = "block";
-            } else {
-                alert("Enlace no válido.");
-            }
-        }
-
-        function downloadThumb() {
-            if(!currentThumbUrl) return;
-            window.open(ADSTERRA_DIRECT_LINK, "_blank");
-            const a = document.createElement('a');
-            a.href = currentThumbUrl;
-            a.target = "_blank";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            } else { alert("Enlace no válido."); }
         }
     </script>
 </body>
