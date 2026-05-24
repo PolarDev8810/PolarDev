@@ -24,6 +24,7 @@
             padding: 0;
         }
 
+        /* --- PANTALLA DE CARGA (PRELOADER) --- */
         #preloader {
             position: fixed;
             top: 0;
@@ -93,6 +94,7 @@
             padding: 20px;
         }
 
+        /* --- CONTORNO RGB EN EL BORDE DE LA PANTALLA --- */
         body::before {
             content: "";
             position: fixed;
@@ -116,6 +118,7 @@
             100% { border-image-source: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
         }
 
+        /* Fondo de estrellas */
         .stars {
             position: fixed;
             top: 0;
@@ -168,6 +171,7 @@
             padding-top: 90px;
         }
 
+        /* Perfil */
         .profile-container {
             text-align: center;
             width: 100%;
@@ -215,6 +219,7 @@
             color: #e9d5ff; 
         }
 
+        /* --- TARJETA DE RECOMPENSA GLASSMORPHISM --- */
         .loot-box {
             width: 100%;
             backdrop-filter: blur(15px);
@@ -250,6 +255,7 @@
             text-shadow: 0 0 10px rgba(255,82,82,0.4);
         }
 
+        /* Selector de pestañas para múltiples códigos */
         .tabs-container {
             display: none; 
             justify-content: center;
@@ -279,6 +285,7 @@
             border-color: #ffffff;
         }
 
+        /* --- MARCO RGB EXCLUSIVO PARA EL CÓDIGO --- */
         .code-display {
             display: none; 
             font-family: 'Courier Prime', monospace;
@@ -309,6 +316,7 @@
             100% { border-image-source: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
         }
 
+        /* Enlaces */
         .links-container {
             width: 100%;
             display: flex;
@@ -384,6 +392,7 @@
             opacity: 0.8;
         }
 
+        /* --- CUADRO RECOMENDADO / VIDEO DESTACADO --- */
         .video-promo-box {
             width: 100%;
             backdrop-filter: blur(15px);
@@ -429,6 +438,7 @@
             position: absolute;
         }
 
+        /* --- PANEL DE HERRAMIENTAS --- */
         .toolbox-container {
             width: 100%;
             backdrop-filter: blur(15px);
@@ -555,6 +565,7 @@
             color: #777 !important;
         }
 
+        /* --- CONTENEDOR DE PREVIEW DE MINIATURA --- */
         .thumb-preview-box {
             display: none; 
             width: 100%;
@@ -570,6 +581,7 @@
             display: block;
         }
 
+        /* Adsterra */
         .adsterra-box {
             width: 100%;
             backdrop-filter: blur(15px);
@@ -594,6 +606,7 @@
             letter-spacing: 1px;
         }
 
+        /* --- ALERTA PERSONALIZADA ESTILIZADA (TOAST) --- */
         .custom-toast {
             position: fixed;
             bottom: -100px; 
@@ -819,7 +832,8 @@
         let codigosDecodificados = [];
         let codigoActivoActual = "";
 
-        const FECHA_LANZAMIENTO = new Date("May 23, 2026 09:30:00").getTime(); 
+       
+        const FECHA_LANZAMIENTO = new Date("May 30, 2026 09:30:00").getTime(); 
 
         const elementoTimer = document.getElementById('timer');
         const elementoCodigo = document.getElementById('codeBox');
