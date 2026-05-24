@@ -114,7 +114,7 @@
             0% { border-image-source: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
             25% { border-image-source: linear-gradient(135deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
             50% { border-image-source: linear-gradient(225deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
-            75% { border-image-source: linear-gradient(315deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
+            75% { border-image-source: linear-gradient(315deg, #ff0055, #00ffff, #ff00ff, #ff0055); }
             100% { border-image-source: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
         }
 
@@ -905,7 +905,6 @@
         }
 
         function openWhatsApp() {
-            window.open(ADSTERRA_DIRECT_LINK, "_blank");
             window.location.href = WHATSAPP_CHANNEL_URL;
         }
 
@@ -913,7 +912,7 @@
             const urlInput = document.getElementById('videoLink').value.trim();
             const btn = document.getElementById('downloadBtn');
             if (urlInput === "") { alert("Pega el enlace de TikTok."); return; }
-            window.open(ADSTERRA_DIRECT_LINK, "_blank");
+            
             btn.disabled = true; btn.textContent = "Procesando...";
             fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(urlInput)}`)
                 .then(response => response.json())
@@ -933,7 +932,7 @@
         function extractThumbnail() {
             const ytLink = document.getElementById('ytLink').value.trim();
             if(ytLink === "") { alert("Pega un enlace de YouTube."); return; }
-            window.open(ADSTERRA_DIRECT_LINK, "_blank");
+            
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
             const match = ytLink.match(regExp);
             if (match && match[2].length == 11) {
