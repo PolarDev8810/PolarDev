@@ -37,7 +37,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
         }
 
         .loader-content {
@@ -69,7 +69,6 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             overflow: hidden;
-            position: relative;
         }
 
         .loader-bar-fill {
@@ -78,7 +77,6 @@
             background: linear-gradient(90deg, #ff0055, #00ff66, #00ffff);
             background-size: 200% 100%;
             border-radius: 10px;
-            transition: width 0.1s linear;
         }
 
         body {
@@ -94,7 +92,7 @@
             padding: 20px;
         }
 
-        /* --- CONTORNO RGB EN EL BORDE DE LA PANTALLA --- */
+        /* --- CONTORNO RGB OPTIMIZADO (BORDES FIJOS PARA EVITAR LAG) --- */
         body::before {
             content: "";
             position: fixed;
@@ -106,19 +104,9 @@
             border-image: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055) 1;
             z-index: 100000;
             pointer-events: none;
-            background-size: 400% 400%;
-            animation: rgb-screen-border 6s linear infinite;
         }
 
-        @keyframes rgb-screen-border {
-            0% { border-image-source: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
-            25% { border-image-source: linear-gradient(135deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
-            50% { border-image-source: linear-gradient(225deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
-            75% { border-image-source: linear-gradient(315deg, #ff0055, #00ffff, #ff00ff, #ff0055); }
-            100% { border-image-source: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
-        }
-
-        /* Fondo de estrellas */
+        /* --- FONDO DE ESTRELLAS ULTRA-LIGERO (Acelerado por Hardware) --- */
         .stars {
             position: fixed;
             top: 0;
@@ -128,6 +116,7 @@
             z-index: 0;
             pointer-events: none;
             background: transparent;
+            will-change: transform;
         }
         
         .stars::after {
@@ -138,26 +127,13 @@
             width: 1px;
             height: 1px;
             background: transparent;
-            box-shadow: 10vw 20vh #fff, 35vw 45vh #fff, 70vw 15vh rgba(255,255,255,0.7), 85vw 80vh #fff, 20vw 90vh rgba(255,255,255,0.5), 55vw 60vh #fff, 90vw 30vh #fff, 40vw 10vh rgba(255,255,255,0.8), 15vw 50vh #fff, 65vw 75vh #fff;
-            animation: moveStarsOptimized 12s linear infinite;
+            box-shadow: 10vw 20vh #fff, 35vw 45vh #fff, 70vw 15vh rgba(255,255,255,0.7), 85vw 80vh #fff, 20vw 90vh rgba(255,255,255,0.5), 55vw 60vh #fff, 90vw 30vh #fff, 40vw 10vh rgba(255,255,255,0.8);
+            animation: moveStarsFast 25s linear infinite;
         }
 
-        .stars::before {
-            content: " ";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 2px;
-            height: 2px;
-            border-radius: 50%;
-            background: transparent;
-            box-shadow: 25vw 30vh #fff, 60vw 55vh #fff, 80vw 20vh #fff, 45vw 85vh rgba(255,255,255,0.9), 10vw 70vh #fff, 95vw 65vh #fff, 50vw 25vh #fff, 75vw 90vh #fff;
-            animation: moveStarsOptimized 18s linear infinite;
-        }
-
-        @keyframes moveStarsOptimized {
-            from { transform: translate3d(0, 0, 0); }
-            to { transform: translate3d(0, -100vh, 0); }
+        @keyframes moveStarsFast {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100vh); }
         }
 
         .wrapper {
@@ -222,7 +198,8 @@
         /* --- TARJETA DE RECOMPENSA GLASSMORPHISM --- */
         .loot-box {
             width: 100%;
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 14px;
@@ -255,7 +232,7 @@
             text-shadow: 0 0 10px rgba(255,82,82,0.4);
         }
 
-        /* Selector de pestañas para múltiples códigos */
+        /* Selector de pestañas */
         .tabs-container {
             display: none; 
             justify-content: center;
@@ -274,7 +251,7 @@
             font-family: 'Courier Prime', monospace;
             font-size: 0.8rem;
             font-weight: 700;
-            transition: all 0.2s ease;
+            transition: background 0.2s ease, color 0.2s ease;
             flex: 1; 
             text-align: center;
         }
@@ -285,7 +262,7 @@
             border-color: #ffffff;
         }
 
-        /* --- MARCO RGB EXCLUSIVO PARA EL CÓDIGO --- */
+        /* --- MARCO RGB EN EL CÓDIGO (ESTÁTICO PARA ELIMINAR LAG) --- */
         .code-display {
             display: none; 
             font-family: 'Courier Prime', monospace;
@@ -303,17 +280,7 @@
             overflow-wrap: anywhere;
             border: 3px solid transparent;
             border-image: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055) 1;
-            background-size: 400% 400%;
-            animation: rgb-border-exclusivo 6s linear infinite;
-            box-shadow: 0 0 20px rgba(37, 211, 102, 0.2), inset 0 0 10px rgba(255, 255, 255, 0.05);
-        }
-
-        @keyframes rgb-border-exclusivo {
-            0% { border-image-source: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
-            25% { border-image-source: linear-gradient(135deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
-            50% { border-image-source: linear-gradient(225deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
-            75% { border-image-source: linear-gradient(315deg, #ff0055, #00ffff, #ff00ff, #ff0055); }
-            100% { border-image-source: linear-gradient(45deg, #ff0055, #00ff66, #00ffff, #ff00ff, #ff0055); }
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.2);
         }
 
         /* Enlaces */
@@ -326,7 +293,8 @@
         }
 
         .link-card {
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 12px;
@@ -336,14 +304,13 @@
             text-decoration: none;
             color: white;
             box-shadow: 0 0 15px rgba(180,120,255,0.1); 
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            transition: transform 0.2s ease, background 0.2s ease;
             position: relative;
         }
 
-        .link-card:hover {
-            transform: scale(1.03);
+        .link-card:hover:not(.disabled-btn) {
+            transform: scale(1.02);
             background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 25px rgba(180,120,255,0.4); 
         }
 
         .link-card i {
@@ -365,6 +332,12 @@
         .link-card-custom {
             padding: 14px 20px;
             cursor: pointer;
+        }
+
+        .disabled-btn {
+            cursor: not-allowed;
+            opacity: 0.8;
+            background: rgba(255, 255, 255, 0.04);
         }
 
         .whatsapp-icon {
@@ -392,10 +365,11 @@
             opacity: 0.8;
         }
 
-        /* --- CUADRO RECOMENDADO / VIDEO DESTACADO --- */
+        /* --- CUADRO VIDEO RECOMENDADO --- */
         .video-promo-box {
             width: 100%;
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 14px;
@@ -441,7 +415,8 @@
         /* --- PANEL DE HERRAMIENTAS --- */
         .toolbox-container {
             width: 100%;
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 14px;
@@ -470,7 +445,7 @@
             text-shadow: 0 0 10px rgba(250, 204, 21, 0.4);
             cursor: pointer;
             user-select: none;
-            transition: background 0.3s ease;
+            transition: background 0.2s ease;
         }
 
         .toolbox-heading:hover {
@@ -479,7 +454,7 @@
 
         .toolbox-heading i.fa-chevron-down {
             font-size: 1rem;
-            transition: transform 0.3s ease;
+            transition: transform 0.2s ease;
         }
 
         .toolbox-heading.activo i.fa-chevron-down {
@@ -489,7 +464,7 @@
         .toolbox-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -531,11 +506,6 @@
             font-family: 'Courier Prime', monospace;
             font-size: 0.9rem;
             outline: none;
-            transition: border 0.3s ease;
-        }
-
-        .tool-input:focus {
-            border-color: #ffffff;
         }
 
         .tool-btn {
@@ -551,7 +521,7 @@
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: transform 0.1s ease, background 0.2s ease;
+            transition: background 0.2s ease;
         }
 
         .tool-btn:hover:not(:disabled) {
@@ -561,11 +531,10 @@
         .tool-btn:disabled {
             opacity: 0.3;
             cursor: not-allowed;
-            border-color: #444;
             color: #777 !important;
         }
 
-        /* --- CONTENEDOR DE PREVIEW DE MINIATURA --- */
+        /* Preview miniatura */
         .thumb-preview-box {
             display: none; 
             width: 100%;
@@ -581,10 +550,11 @@
             display: block;
         }
 
-        /* Adsterra */
+        /* Adsterra Box */
         .adsterra-box {
             width: 100%;
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 14px;
@@ -606,7 +576,7 @@
             letter-spacing: 1px;
         }
 
-        /* --- ALERTA PERSONALIZADA ESTILIZADA (TOAST) --- */
+        /* --- TOAST NOTIFICACIÓN --- */
         .custom-toast {
             position: fixed;
             bottom: -100px; 
@@ -624,7 +594,7 @@
             z-index: 200000;
             box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
             backdrop-filter: blur(10px);
-            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: bottom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             width: 85%;
             max-width: 340px;
             display: flex;
@@ -635,6 +605,110 @@
 
         .custom-toast.show {
             bottom: 40px; 
+        }
+
+        /* --- MODAL DE VERIFICACIÓN OPTIMIZADO --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 2, 5, 0.85);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 300000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .captcha-modal {
+            background: rgba(15, 12, 30, 0.95);
+            border: 2px solid rgba(192, 132, 252, 0.4);
+            box-shadow: 0 0 30px rgba(192, 132, 252, 0.25);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 360px;
+            padding: 25px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transform: scale(0.9);
+            transition: transform 0.25s ease;
+        }
+
+        .modal-overlay.open .captcha-modal {
+            transform: scale(1);
+        }
+
+        .captcha-head {
+            font-family: 'Courier Prime', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #c084fc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .captcha-sub {
+            font-size: 0.85rem;
+            color: #e9d5ff;
+            opacity: 0.8;
+        }
+
+        .captcha-expression {
+            font-family: 'Courier Prime', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px dashed rgba(192, 132, 252, 0.3);
+            margin: 5px 0;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .modal-btn-cancel {
+            flex: 1;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            font-family: 'Courier Prime', monospace;
+            padding: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .modal-btn-confirm {
+            flex: 1;
+            background: #c084fc;
+            border: none;
+            color: #000000;
+            font-family: 'Courier Prime', monospace;
+            font-weight: 700;
+            padding: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -655,6 +729,21 @@
     <div class="custom-toast" id="toastAlert">
         <i class="fa-solid fa-circle-check" style="color: #25D366; font-size: 1.2rem;"></i>
         <span>¡Copiado! Corre a Canjearlo</span>
+    </div>
+
+    <div class="modal-overlay" id="captchaOverlay">
+        <div class="captcha-modal">
+            <div class="captcha-head">
+                <i class="fa-solid fa-robot"></i> VERIFICACIÓN ANTIBOT
+            </div>
+            <div class="captcha-sub" id="captchaSubtitle">Resuelve la suma para poder copiar el código de regalo</div>
+            <div class="captcha-expression" id="mathProblem">5 + 5</div>
+            <input type="number" class="tool-input" id="captchaAnswer" placeholder="Introduce tu respuesta aquí..." style="text-align: center; font-size: 1.1rem;" onkeydown="handleCaptchaKey(event)">
+            <div class="modal-buttons">
+                <button class="modal-btn-cancel" onclick="closeCaptchaModal()">Cancelar</button>
+                <button class="modal-btn-confirm" onclick="validateCaptchaAnswer()">Verificar</button>
+            </div>
+        </div>
     </div>
 
     <script src="https://pl29488991.effectivecpmnetwork.com/5c/6a/ac/5c6aacf0810d09606b00e7cca8678a05.js"></script>
@@ -712,15 +801,15 @@
                 <button class="tab-btn" onclick="switchCode(3)">Código #3</button>
             </div>
 
-            <div class="code-display" id="codeBox" onclick="copyCode()">CÓDIGO</div>
+            <div class="code-display" id="codeBox" onclick="openCaptchaModal()">CÓDIGO</div>
         </div>
 
         <div class="links-container">
-            <div onclick="openWhatsApp()" class="link-card link-card-custom">
+            <div id="wsCard" onclick="startWhatsAppCountdown()" class="link-card link-card-custom">
                 <i class="fa-brands fa-whatsapp whatsapp-icon"></i>
                 <div class="custom-text-container">
                     <span class="custom-title">Inf. PolarDev</span>
-                    <span class="custom-subtitle">Canal de WhatsApp</span>
+                    <span class="custom-subtitle" id="wsSubtitle">Canal de WhatsApp</span>
                 </div>
             </div>
             
@@ -751,17 +840,13 @@
             
             <div class="toolbox-content" id="toolboxContent">
                 <div class="tool-card">
-                    <div class="tool-title">
-                        Descargar TikTok sin marca de agua
-                    </div>
+                    <div class="tool-title">Descargar TikTok sin marca de agua</div>
                     <input type="text" class="tool-input" id="videoLink" placeholder="Pega el link de TikTok aquí...">
                     <button class="tool-btn" id="downloadBtn" onclick="processDownload()">Descargar MP4</button>
                 </div>
 
                 <div class="tool-card">
-                    <div class="tool-title">
-                        Extraer Miniatura YouTube (HD)
-                    </div>
+                    <div class="tool-title">Extraer Miniatura YouTube (HD)</div>
                     <input type="text" class="tool-input" id="ytLink" placeholder="Pega el link del video de YouTube...">
                     <button class="tool-btn" onclick="extractThumbnail()">Obtener Miniatura</button>
                     
@@ -789,50 +874,38 @@
                 if (progresoActual < 85) {
                     progresoActual += Math.floor(Math.random() * 5) + 2;
                     if (progresoActual > 85) progresoActual = 85;
-                    actualizarInterfazLoader(progresoActual);
+                    txtPorcentaje.textContent = progresoActual + "%";
+                    barraRelleno.style.width = progresoActual + "%";
                 }
             } else {
-                progresoActual += Math.floor(Math.random() * 12) + 5;
+                progresoActual += Math.floor(Math.random() * 15) + 8;
                 if (progresoActual >= 100) {
                     progresoActual = 100;
-                    actualizarInterfazLoader(progresoActual);
+                    txtPorcentaje.textContent = "100%";
+                    barraRelleno.style.width = "100%";
                     clearInterval(intervaloCarga);
-                    
                     setTimeout(() => {
                         contenedorLoader.style.opacity = '0';
                         contenedorLoader.style.visibility = 'hidden';
-                    }, 400);
+                    }, 300);
                 } else {
-                    actualizarInterfazLoader(progresoActual);
+                    txtPorcentaje.textContent = progresoActual + "%";
+                    barraRelleno.style.width = progresoActual + "%";
                 }
             }
-        }, 40);
+        }, 30);
 
-        function actualizarInterfazLoader(valor) {
-            txtPorcentaje.textContent = `${valor}%`;
-            barraRelleno.style.width = `${valor}%`;
-        }
-
-        window.addEventListener('load', () => {
-            paginaTotalmenteCargada = true;
-        });
+        window.addEventListener('load', () => { paginaTotalmenteCargada = true; });
 
         function toggleHerramientas() {
-            const header = document.getElementById("toolboxHeader");
-            const content = document.getElementById("toolboxContent");
-            header.classList.toggle("activo");
-            content.classList.toggle("abierto");
+            document.getElementById("toolboxHeader").classList.toggle("activo");
+            document.getElementById("toolboxContent").classList.toggle("abierto");
         }
 
-        const TOKENS_OCULTOS = [
-            "REpIM2tQM00wV1ZKSzFXQ1Q0", 
-            "REpIM2tQM00wQlAwMUpNMjFL", 
-            "REpIM2tQM00wUldHUlZCWDBW"
-        ];
+        const TOKENS_OCULTOS = ["REpIM2tQM00wV1ZKSzFXQ1Q0", "REpIM2tQM00wQlAwMUpNMjFL", "REpIM2tQM00wUldHUlZCWDBW"];
         let codigosDecodificados = [];
         let codigoActivoActual = "";
 
-       
         const FECHA_LANZAMIENTO = new Date("May 30, 2026 09:30:00").getTime(); 
 
         const elementoTimer = document.getElementById('timer');
@@ -842,25 +915,22 @@
         const elementoToast = document.getElementById('toastAlert');
 
         const cuentaAtras = setInterval(() => {
-            const ahora = Date.now();
-            const distanciaReal = FECHA_LANZAMIENTO - ahora;
+            const distanciaReal = FECHA_LANZAMIENTO - Date.now();
 
             if (distanciaReal < 0) {
                 clearInterval(cuentaAtras);
                 elementoTimer.style.display = 'none';
                 elementoTitulo.innerHTML = '<i class="fa-solid fa-fire" style="color:#25D366;"></i> (Toca para copiar)';
                 
-                TOKENS_OCULTOS.forEach(token => {
-                    try {
-                        codigosDecodificados.push(decodeURIComponent(escape(atob(token))));
-                    } catch(e) {
-                        codigosDecodificados.push("ERR_CODE");
-                    }
-                });
+                if (codigosDecodificados.length === 0) {
+                    TOKENS_OCULTOS.forEach(token => {
+                        try { codigosDecodificados.push(decodeURIComponent(escape(atob(token)))); } 
+                        catch(e) { codigosDecodificados.push("ERR_CODE"); }
+                    });
+                }
 
                 codigoActivoActual = codigosDecodificados[0];
                 elementoCodigo.textContent = codigoActivoActual;
-                
                 elementoTabs.style.display = 'flex'; 
                 elementoCodigo.style.display = 'block';
                 return;
@@ -880,32 +950,90 @@
 
         function switchCode(numeroCodigo) {
             if (codigosDecodificados.length === 0) return;
-            
-            const btns = document.querySelectorAll('.tab-btn');
-            btns.forEach((btn, index) => {
+            document.querySelectorAll('.tab-btn').forEach((btn, index) => {
                 if (index === (numeroCodigo - 1)) btn.classList.add('active');
                 else btn.classList.remove('active');
             });
-
             codigoActivoActual = codigosDecodificados[numeroCodigo - 1];
             elementoCodigo.textContent = codigoActivoActual;
         }
 
-        function copyCode() {
-            if (!codigoActivoActual) return; 
-            navigator.clipboard.writeText(codigoActivoActual).then(() => {
-                window.open(ADSTERRA_DIRECT_LINK, "_blank");
-                elementoToast.classList.add('show');
-                setTimeout(() => {
-                    elementoToast.classList.remove('show');
-                }, 3500);
-            }).catch(() => {
-                alert('Código: ' + codigoActivoActual);
-            });
+        let solucionCorrectaCaptcha = 0;
+        const modalOverlay = document.getElementById('captchaOverlay');
+        const mathProblemTxt = document.getElementById('mathProblem');
+        const inputRespuesta = document.getElementById('captchaAnswer');
+        const subtituloCaptcha = document.getElementById('captchaSubtitle');
+
+        function openCaptchaModal() {
+            if (!codigoActivoActual) return;
+            const num1 = Math.floor(Math.random() * 15) + 1;
+            const num2 = Math.floor(Math.random() * 15) + 1;
+            solucionCorrectaCaptcha = num1 + num2;
+
+            mathProblemTxt.textContent = `${num1} + ${num2}`;
+            inputRespuesta.value = "";
+            subtituloCaptcha.textContent = "Resuelve la suma para poder copiar el código de regalo";
+            subtituloCaptcha.style.color = "#e9d5ff";
+
+            modalOverlay.classList.add('open');
+            setTimeout(() => inputRespuesta.focus(), 80);
         }
 
-        function openWhatsApp() {
-            window.location.href = WHATSAPP_CHANNEL_URL;
+        function closeCaptchaModal() { modalOverlay.classList.remove('open'); }
+
+        function validateCaptchaAnswer() {
+            const valorIngresado = parseInt(inputRespuesta.value.trim(), 10);
+            if (isNaN(valorIngresado)) {
+                subtituloCaptcha.textContent = "⚠️ Introduce un número válido.";
+                subtituloCaptcha.style.color = "#ff5252";
+                return;
+            }
+
+            if (valorIngresado === solucionCorrectaCaptcha) {
+                navigator.clipboard.writeText(codigoActivoActual).then(() => {
+                    closeCaptchaModal();
+                    window.open(ADSTERRA_DIRECT_LINK, "_blank");
+                    elementoToast.classList.add('show');
+                    setTimeout(() => { elementoToast.classList.remove('show'); }, 3000);
+                }).catch(() => {
+                    closeCaptchaModal();
+                    alert('Código: ' + codigoActivoActual);
+                });
+            } else {
+                subtituloCaptcha.textContent = "❌ Incorrecto. Revisa tu cuenta.";
+                subtituloCaptcha.style.color = "#ff5252";
+                inputRespuesta.value = "";
+                inputRespuesta.focus();
+            }
+        }
+
+        function handleCaptchaKey(event) { if (event.key === "Enter") { validateCaptchaAnswer(); } }
+
+        let wsProcesando = false;
+        function startWhatsAppCountdown() {
+            if (wsProcesando) return; 
+            wsProcesando = true;
+            const card = document.getElementById("wsCard");
+            const subtitle = document.getElementById("wsSubtitle");
+            
+            card.classList.add("disabled-btn");
+            let segundosRestantes = 5;
+            subtitle.style.color = "#ff5252";
+            subtitle.textContent = `Abriendo canal en ${segundosRestantes}s...`;
+            
+            const contadorWS = setInterval(() => {
+                segundosRestantes--;
+                if (segundosRestantes > 0) {
+                    subtitle.textContent = `Abriendo canal en ${segundosRestantes}s...`;
+                } else {
+                    clearInterval(contadorWS);
+                    subtitle.style.color = "#e9d5ff";
+                    subtitle.textContent = "Canal de WhatsApp";
+                    card.classList.remove("disabled-btn");
+                    wsProcesando = false;
+                    window.open(WHATSAPP_CHANNEL_URL, "_blank");
+                }
+            }, 1000);
         }
 
         function processDownload() {
@@ -924,11 +1052,10 @@
                         document.body.appendChild(a); a.click(); document.body.removeChild(a);
                     } else { alert("No se pudo extraer el video."); }
                 })
-                .catch(() => alert("Error en el servidor de descargas."))
+                .catch(() => alert("Error en el servidor."))
                 .finally(() => { btn.disabled = false; btn.textContent = "Descargar MP4"; });
         }
 
-        let currentThumbUrl = "";
         function extractThumbnail() {
             const ytLink = document.getElementById('ytLink').value.trim();
             if(ytLink === "") { alert("Pega un enlace de YouTube."); return; }
@@ -936,8 +1063,7 @@
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
             const match = ytLink.match(regExp);
             if (match && match[2].length == 11) {
-                currentThumbUrl = `https://img.youtube.com/vi/${match[2]}/maxresdefault.jpg`;
-                document.getElementById('thumbImg').src = currentThumbUrl;
+                document.getElementById('thumbImg').src = `https://img.youtube.com/vi/${match[2]}/maxresdefault.jpg`;
                 document.getElementById('thumbBox').style.display = "block";
             } else { alert("Enlace no válido."); }
         }
