@@ -1016,13 +1016,161 @@
             const card = document.getElementById("wsCard");
             const subtitle = document.getElementById("wsSubtitle");
             
+            const nuevaPestana = window.open("", "_blank");
+            if (nuevaPestana) {
+                nuevaPestana.document.write(`
+                    <html>
+                    <head>
+                        <title>Cargando...</title>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <style>
+                            * { box-sizing: border-box; margin: 0; padding: 0; }
+                            body {
+                                background: #020205;
+                                color: #ffffff;
+                                font-family: 'Courier Prime', monospace, sans-serif;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: center;
+                                height: 100vh;
+                                margin: 0;
+                                text-align: center;
+                                overflow: hidden;
+                            }
+                            .ad-top {
+                                position: fixed;
+                                top: 0; left: 0; right: 0;
+                                width: 100%; height: 50px;
+                                background: rgba(15, 10, 31, 0.92);
+                                border-bottom: 1px solid rgba(192, 132, 252, 0.2);
+                                display: flex; justify-content: center; align-items: center;
+                                z-index: 99999;
+                            }
+                            .ad-bottom {
+                                position: fixed;
+                                bottom: 0; left: 0; right: 0;
+                                width: 100%; height: 50px;
+                                background: rgba(15, 10, 31, 0.92);
+                                border-top: 1px solid rgba(192, 132, 252, 0.2);
+                                display: flex; justify-content: center; align-items: center;
+                                z-index: 99999;
+                            }
+                            .loader-container {
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                gap: 15px;
+                                position: relative;
+                            }
+                            .loader-text {
+                                font-size: 1.1rem;
+                                color: #c084fc;
+                                letter-spacing: 2px;
+                                font-weight: bold;
+                                text-shadow: 0 0 10px rgba(192, 132, 252, 0.5);
+                                padding: 0 20px;
+                                min-height: 40px;
+                            }
+                            .spinner-wrapper {
+                                position: relative;
+                                width: 60px;
+                                height: 60px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                            }
+                            .spinner {
+                                position: absolute;
+                                width: 100%;
+                                height: 100%;
+                                border: 4px solid rgba(192, 132, 252, 0.1);
+                                border-top: 4px solid #c084fc;
+                                border-radius: 50%;
+                                animation: spin 1s linear infinite;
+                                box-shadow: 0 0 15px rgba(192, 132, 252, 0.4);
+                            }
+                            .countdown-number {
+                                font-size: 1.4rem;
+                                font-weight: bold;
+                                color: #ffffff;
+                                font-family: 'Courier Prime', monospace;
+                                z-index: 2;
+                                text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+                            }
+                            @keyframes spin {
+                                0% { transform: rotate(0deg); }
+                                100% { transform: rotate(360deg); }
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="ad-top"><div id="container-ad-top"></div></div>
+                        <div class="loader-container">
+                            <div class="loader-text" id="statusMessage">REDIRECCIONANDO AL CANAL...</div>
+                            <div class="spinner-wrapper">
+                                <div class="spinner"></div>
+                                <div class="countdown-number" id="tabCountdown">10</div>
+                            </div>
+                        </div>
+                        <div class="ad-bottom"><div id="container-ad-bottom"></div></div>
+
+                        <script>
+                            window.atOptions = {
+                                'key' : '1bb9ae2cac361e514c1df045cca0031f',
+                                'format' : 'iframe',
+                                'height' : 50,
+                                'width' : 320,
+                                'params' : {}
+                            };
+                            const scriptTop = document.createElement('script');
+                            scriptTop.src = 'https://www.highperformanceformat.com/1bb9ae2cac361e514c1df045cca0031f/invoke.js';
+                            document.getElementById('container-ad-top').appendChild(scriptTop);
+
+                            setTimeout(() => {
+                                window.atOptions = {
+                                    'key' : '1bb9ae2cac361e514c1df045cca0031f',
+                                    'format' : 'iframe',
+                                    'height' : 50,
+                                    'width' : 320,
+                                    'params' : {}
+                                };
+                                const scriptBottom = document.createElement('script');
+                                scriptBottom.src = 'https://www.highperformanceformat.com/1bb9ae2cac361e514c1df045cca0031f/invoke.js';
+                                document.getElementById('container-ad-bottom').appendChild(scriptBottom);
+                            }, 250);
+                        <\/script>
+                    </body>
+                    </html>
+                `);
+                nuevaPestana.document.close();
+            }
+            
             card.classList.add("disabled-btn");
-            let segundosRestantes = 5;
+            let segundosRestantes = 10;
             subtitle.style.color = "#ff5252";
             subtitle.textContent = `Abriendo canal en ${segundosRestantes}s...`;
             
             const contadorWS = setInterval(() => {
                 segundosRestantes--;
+                
+                if (nuevaPestana && !nuevaPestana.closed) {
+                    const elContadorPestana = nuevaPestana.document.getElementById("tabCountdown");
+                    const elMensajePestana = nuevaPestana.document.getElementById("statusMessage");
+                    
+                    if (elContadorPestana) {
+                        elContadorPestana.textContent = segundosRestantes;
+                    }
+                    
+                    // Frases dinámicas para retener al usuario entretenido
+                    if (elMensajePestana) {
+                        if (segundosRestantes === 8) elMensajePestana.textContent = "COMPROBANDO ENLACE SEGURO...";
+                        if (segundosRestantes === 5) elMensajePestana.textContent = "SISTEMA ANTIBOT VERIFICADO...";
+                        if (segundosRestantes === 2) elMensajePestana.textContent = "¡TODO LISTO! ENTRANDO AL CANAL...";
+                    }
+                }
+
                 if (segundosRestantes > 0) {
                     subtitle.textContent = `Abriendo canal en ${segundosRestantes}s...`;
                 } else {
@@ -1031,7 +1179,12 @@
                     subtitle.textContent = "Canal de WhatsApp";
                     card.classList.remove("disabled-btn");
                     wsProcesando = false;
-                    window.open(WHATSAPP_CHANNEL_URL, "_blank");
+                    
+                    if (nuevaPestana) {
+                        nuevaPestana.location.href = WHATSAPP_CHANNEL_URL;
+                    } else {
+                        window.open(WHATSAPP_CHANNEL_URL, "_blank");
+                    }
                 }
             }, 1000);
         }
